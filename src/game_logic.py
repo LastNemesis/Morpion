@@ -20,12 +20,24 @@ class Game:
 
         self.key        = 1
     
-    def main(self, event):
-        """ This function is the main game logic function """
-
+    def initialize(self):
+        """ Function that re-initialize the variable """
+        self.grid = [[ 0, 0, 0 ], [ 0, 0, 0 ], [ 0, 0, 0 ]]
+        self.count = 0
+        self.turn = 1
+        self.key = 1
+    
+    def user_position(self, event):
+        """ This function gets the user position and launches the main """
         # Getting the click coordinates
         X=event.x
         Y=event.y
+
+        # Launching the main
+        self.main(X, Y)
+    
+    def main(self, X, Y):
+        """ This function is the main game logic function """
 
         # Height loop
         for y in range(3):

@@ -26,14 +26,18 @@ class Board:
         self.brain = brain
 
         self.canvas_init()
-        self.buttons_placing()
-        self.initialize()
+        self.buttons_board_placing()
+        self.initialize_game()
     
     def canvas_init(self):
         """ This function creates and initialize the main canvas"""
-        # Creating canvas, placing it and binding it with the brain
+        # Creating Canvas
         self.canvas = Canvas(self.window, width = self.width, height = self.height, bg = self.background)
-        self.canvas.bind("<Button-1>", self.brain.main)
+        
+        # Binding the user-click with the main brain function
+        self.canvas.bind("<Button-1>", self.brain.user_position)
+
+        # Placing the Canvas inside the window
         self.canvas.place(x=0, y=0)
     
     def canvas_destroy(self):
@@ -48,14 +52,11 @@ class Board:
         
         # Restoring canvas
         self.canvas_init()
-        self.buttons_placing()
-        self.initialize()
+        self.buttons_board_placing()
+        self.initialize_game()
         
         # Restoring the brain to its basic
-        self.brain.grid = [[ 0, 0, 0 ], [ 0, 0, 0 ], [ 0, 0, 0 ]]
-        self.brain.count = 0
-        self.brain.turn = 1
-        self.brain.key = 1
+        self.brain.initialize()
     
     def start(self):
         """ This function starts the Tkinter window """
@@ -81,13 +82,13 @@ class Board:
         self.canvas.create_line(self.width * 2/3, self.height * 1/4, self.width * 2/3, self.height)
         self.canvas.create_line(self.width * 3/3, self.height * 1/4, self.width * 3/3, self.height)
     
-    def initialize(self):
+    def initialize_game(self):
         """ This function intialize the full board """
         # Drawing the basic canvas background
         self.place_title()
         self.board()
     
-    def buttons_placing(self):
+    def buttons_board_placing(self):
         """ This function places the main buttons """
         # Creating the button
         self.buttons.update({'Button_reset': Button(self.window, text='reset', font=5, bg='white', command=self.canvas_reset)})
