@@ -50,7 +50,7 @@ class Game:
                         self.count += 1
 
                         # Adding one to board
-                        self.grid[y][x] = self.turn
+                        self.grid[y][x] = (self.turn + 1)
 
                         # Changing the player
                         self.turn = (self.turn + 1) % 2
@@ -58,6 +58,10 @@ class Game:
         # Checking if there is a winner (after minimum four moves)
         if (self.count > 4):
             self.winner_check()
+        
+        # Checking if there is a draw
+        if (self.count > 7) and (self.key == 1):
+            self.draw_check()
 
     def winner_check(self):
         """ This function checks if there is a winner """
@@ -92,3 +96,28 @@ class Game:
 
         # Cut-off
         self.key = 0
+    
+    def draw_check(self):
+        """ This function check is the grid is full, then declares Draw """
+
+        counter = 0
+
+        # Height loop
+        for y in range(3):
+            
+            # Width loop
+            for x in range(3):
+
+                # Checking if the cell is empty
+                if (self.grid[y][x] != 0):
+
+                    counter += 1
+        
+        # Checking if the grid is full
+        if (counter == 9):
+            
+            # Displaying the draw page
+            self.board.draw()
+
+            # Cut-off
+            self.key = 0

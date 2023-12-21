@@ -6,7 +6,6 @@ from src.board import Board
 from src.game_logic import Game
 #from src.player import player
 
-
 ## Main function
 def main():
     """ Main function """
@@ -18,8 +17,8 @@ def main():
     board = Board(brain)
 
     # Re-Intializing the game logic parameters
-    brain.board = board
-    brain.width = board.width
+    brain.board  = board
+    brain.width  = board.width
     brain.height = board.height
 
     # Starting the mainloop

@@ -7,7 +7,6 @@ class Board:
     
     def __init__(self, brain):
         """ This function initializing the board """
-
         self.window         = Tk()
         self.title          = "Tic-Tac-Toe"
 
@@ -22,25 +21,54 @@ class Board:
         self.font_family    = 'Arial'
         self.font_size      = 30
 
-        self.canvas         = Canvas(self.window, width = self.width, height = self.height, bg = self.background)
-        
-        self.canvas.bind("<Button-1>", brain.main)
-        self.canvas.place(x=0, y=0)
+        self.buttons        = {}
 
+        self.brain = brain
+
+        self.canvas_init()
+        self.buttons_placing()
         self.initialize()
+    
+    def canvas_init(self):
+        """ This function creates and initialize the main canvas"""
+        # Creating canvas, placing it and binding it with the brain
+        self.canvas = Canvas(self.window, width = self.width, height = self.height, bg = self.background)
+        self.canvas.bind("<Button-1>", self.brain.main)
+        self.canvas.place(x=0, y=0)
+    
+    def canvas_destroy(self):
+        """ This function destroys the main canvas"""
+        # Detroying canvas
+        self.canvas.destroy()
+    
+    def canvas_reset(self):
+        """ This function destroys the main canvas"""
+        # Destroying canvas
+        self.canvas_destroy()
+        
+        # Restoring canvas
+        self.canvas_init()
+        self.buttons_placing()
+        self.initialize()
+        
+        # Restoring the brain to its basic
+        self.brain.grid = [[ 0, 0, 0 ], [ 0, 0, 0 ], [ 0, 0, 0 ]]
+        self.brain.count = 0
+        self.brain.turn = 1
+        self.brain.key = 1
     
     def start(self):
         """ This function starts the Tkinter window """
+        # Starting the main loop
         self.window.mainloop()
 
     def place_title(self):
         """ This function places the title """
-
+        # Placing title
         self.canvas.create_text(self.width/2, self.height/8, text=self.title, fill=self.font_color, font=(self.font_family, self.font_size))
 
     def board(self):
         """ This function draws the board """
-        
         # Horizontal lines
         self.canvas.create_line(0, self.height * 1/4, self.width, self.height * 1/4)
         self.canvas.create_line(0, self.height * 2/4, self.width, self.height * 2/4)
@@ -55,24 +83,31 @@ class Board:
     
     def initialize(self):
         """ This function intialize the full board """
-        
+        # Drawing the basic canvas background
         self.place_title()
         self.board()
     
+    def buttons_placing(self):
+        """ This function places the main buttons """
+        # Creating the button
+        self.buttons.update({'Button_reset': Button(self.window, text='reset', font=5, bg='white', command=self.canvas_reset)})
+        
+        # Placing the button
+        self.buttons['Button_reset'].place(x=1, y=1, width=60, height=20, anchor=NW)
+    
     def cross(self, x, y):
         """ This function places a cross on the given coordinates """
-        
+        # Drawing a cross
         self.canvas.create_line((x*100) + 25, (y*100) + 125, (x*100) + 75, (y*100) + 175)
         self.canvas.create_line((x*100) + 75, (y*100) + 125, (x*100) + 25, (y*100) + 175)
 
     def circle(self, x, y):
         """ This function places a circle on the given coordinates """
-
+        # Drawing a circle
         self.canvas.create_oval((x*100) + 25, (y*100) + 125, (x*100) + 75, (y*100) + 175, fill=self.background, outline=self.font_color)
 
     def winner(self, player):
         """ This function displays the winner """
-
         # Window
         self.canvas.create_rectangle(self.width * 1/12, self.height * 1/3.2, self.width * 11/12, self.height * 3/3.2, fill=self.background, outline=self.font_color)
 
@@ -88,3 +123,12 @@ class Board:
         else:
             # Winner is the circle
             self.circle(1,1)
+
+    def draw(self):
+        """ This function displays the draw page """
+        # Window
+        self.canvas.create_rectangle(self.width * 1/12, self.height * 1/3.2, self.width * 11/12, self.height * 3/3.2, fill=self.background, outline=self.font_color)
+
+        # Text
+        self.canvas.create_text(int(self.width * 1/2), int(self.height * 8/16), text='Draw',fill=self.font_color, font=(self.font_family, self.font_size))
+        self.canvas.create_text(int(self.width * 1/2), int(self.height * 10/16), text='Reset the game',fill=self.font_color, font=(self.font_family, int(self.font_size * 2/3)))
