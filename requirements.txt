@@ -1,0 +1,2 @@
+-- Requirements
+Tkinter version 8.6

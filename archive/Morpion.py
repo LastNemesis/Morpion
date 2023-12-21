@@ -83,6 +83,7 @@ def clic(event):
             can.create_line(275,325,225,375)
         else:
             ellipse=can.create_oval(225,325,275,375,fill='white',outline='black')
+    
     if liste[0]==liste[1]==liste[2]!=0 or liste[3]==liste[4]==liste[5]!=0 or liste[6]==liste[7]==liste[8]!=0 or liste[0]==liste[3]==liste[6]!=0 or liste[1]==liste[4]==liste[7]!=0 or liste[2]==liste[5]==liste[8]!=0 or liste[0]==liste[4]==liste[8]!=0 or liste[6]==liste[4]==liste[2]!=0:
         gagnant(sym)
     elif a==1:
